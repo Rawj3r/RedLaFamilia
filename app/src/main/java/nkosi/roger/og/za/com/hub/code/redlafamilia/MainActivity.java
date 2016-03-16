@@ -1,6 +1,9 @@
 package nkosi.roger.og.za.com.hub.code.redlafamilia;
 
+import android.content.Context;
 import android.content.Intent;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.Bundle;
 
 import android.support.design.widget.NavigationView;
@@ -12,8 +15,6 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 
-import java.util.ArrayList;
-import java.util.List;
 
 import nkosi.roger.og.za.com.hub.code.redlafamilia.Utilities.FeedsActivity;
 
@@ -22,7 +23,6 @@ public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
 
-    List<Feeds> feedsList = new ArrayList<>();
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -39,6 +39,20 @@ public class MainActivity extends AppCompatActivity
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
+
+        connect();
+    }
+
+    private void connect() {
+        ConnectivityManager manager = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo info = manager.getActiveNetworkInfo();
+        boolean connected = info != null && info.isAvailable() && info.isConnectedOrConnecting();
+
+        if (connected){
+            if (info.getType() == ConnectivityManager.TYPE_WIMAX || info.getType() == ConnectivityManager.TYPE_MOBILE){
+                // load data
+            }
+        }
     }
 
 
